@@ -95,5 +95,19 @@ namespace Kinovea.ScreenManager
             btnCancel.Enabled = false;
             m_bgWorker.CancelAsync();
         }
+        public void RunInBackground()
+        {
+            // Start the background worker
+            m_bgWorker.RunWorkerAsync();
+
+            // Wait until the worker completes
+            while (m_bgWorker.IsBusy)
+            {
+                // Keep the application responsive
+                Application.DoEvents();
+                Thread.Sleep(10); // Avoid 100% CPU usage in the loop
+            }
+        }
+
     }
 }

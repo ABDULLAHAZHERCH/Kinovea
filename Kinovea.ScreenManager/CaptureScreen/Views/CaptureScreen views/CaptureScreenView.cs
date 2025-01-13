@@ -68,6 +68,7 @@ namespace Kinovea.ScreenManager
         private bool IsCurrentlyPlaying;
         private bool autoPlayback = false;
         private bool playauto = false;
+        private bool playautoagain = false;
         #endregion
 
         public CaptureScreenView(CaptureScreen presenter)
@@ -368,15 +369,6 @@ namespace Kinovea.ScreenManager
         private void BtnRecordClick(object sender, EventArgs e)
         {
             presenter.View_ToggleRecording();
-
-            autoPlayback = presenter.recorded1time;
-            if (playauto && autoPlayback)
-            {
-                presenter.recorded1time = false;
-                autoPlayback = false;
-                callPlayer();
-                playauto = false;
-            }
         }
         private void btnArm_Click(object sender, EventArgs e)
         {
@@ -607,23 +599,39 @@ namespace Kinovea.ScreenManager
             this.Controls.Add(player.UI);
 
 
-            if (playauto)
+            if (presenter.recorded1time)
             {
-                player.view.autoPlayback = playauto;
-                playauto = false;
                 LoaderVideo.LoadVideo(player, presenter.recentFileName, null);
+                player.view.startPlay();
+                player.StartReplayWatcher(null,presenter.recentFileName);
             }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            // Toggle the play state
             playauto = !playauto;
 
             if (playauto)
+            {
+                // First press: Indicate playing mode is active
                 button1.Image = Resources.x_mark1;
+            }
             else
-                button1.Image = Resources.check_mark1;
+            {
+                // Second press: Play the video if it has been recorded
+                if (presenter.recorded1time) // Check if a recording exists
+                {
+                    button1.Image = Resources.check_mark1; // Reset the button image
+                    callPlayer(); // Play the recorded video
+                }
+                else
+                {
+                    MessageBox.Show("No video recorded yet!"); // Notify if no recording exists
+                }
+            }
         }
+
         private void pnlCapturedVideos_Paint(object sender, PaintEventArgs e)
         {
 

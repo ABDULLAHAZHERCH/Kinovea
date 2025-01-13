@@ -832,9 +832,15 @@ namespace Kinovea.ScreenManager
         }
         private void ProgressWorker(DoWorkEventHandler _doWork)
         {
-            formProgressBar2 fpb = new formProgressBar2(true, false, _doWork);
-            fpb.ShowDialog();
-            fpb.Dispose();
+            //formProgressBar2 fpb = new formProgressBar2(true, false, _doWork);
+            //fpb.ShowDialog();
+            //fpb.Dispose();
+
+            using (formProgressBar2 fpb = new formProgressBar2(true, false, _doWork))
+            {
+                // Run the background worker without showing the form
+                fpb.RunInBackground();
+            }
         }
         public void DisplayAsActiveScreen(bool _bActive)
         {
@@ -1849,7 +1855,16 @@ namespace Kinovea.ScreenManager
             }
 
         }
-        private void buttonPlay_Click(object sender, EventArgs e)
+        public void buttonPlay_Click(object sender, EventArgs e)
+        {
+            if (m_FrameServer.Loaded)
+            {
+                OnPoke();
+                OnButtonPlay();
+            }
+        }
+
+        public void startPlay()
         {
             if (m_FrameServer.Loaded)
             {
@@ -5702,6 +5717,7 @@ namespace Kinovea.ScreenManager
                 {
                     screen.LoadCamera(LoaderCamera.CameraSummary, LoaderCamera.ScreenDescriptionCapture);
                     screen.loaded = true;
+                    screen.ForceRecordingStatus(true);
                 }
                 else { }
                 this.Controls.Add(screen.UI);
