@@ -36,34 +36,34 @@ namespace Kinovea.ScreenManager
         {
             this.components = new System.ComponentModel.Container();
             this.pnlControls = new System.Windows.Forms.Panel();
-            this.pnlDrawingToolsBar = new System.Windows.Forms.Panel();
-            this.pnlCapturedVideos = new System.Windows.Forms.Panel();
-            this.nudDelay = new System.Windows.Forms.NumericUpDown();
-            this.lblDelay = new System.Windows.Forms.Label();
-            this.pnlTitle = new System.Windows.Forms.Panel();
-            this.btnIcon = new System.Windows.Forms.Button();
-            this.lblCameraTitle = new System.Windows.Forms.Label();
-            this.pnlViewport = new System.Windows.Forms.Panel();
-            this.toolTips = new System.Windows.Forms.ToolTip(this.components);
-            this.btnClose = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.pnlDrawingToolsBar = new System.Windows.Forms.Panel();
             this.btnFoldCapturedVideosPanel = new System.Windows.Forms.Button();
+            this.pnlCapturedVideos = new System.Windows.Forms.Panel();
             this.buttonPlay = new System.Windows.Forms.Button();
             this.btnRecord = new System.Windows.Forms.Button();
+            this.nudDelay = new System.Windows.Forms.NumericUpDown();
+            this.fnbVideo = new Kinovea.ScreenManager.FilenameBox();
+            this.fnbImage = new Kinovea.ScreenManager.FilenameBox();
             this.pnlCaptureDock = new System.Windows.Forms.Panel();
             this.btnSettings = new System.Windows.Forms.Button();
             this.btnGrab = new System.Windows.Forms.Button();
             this.btnArm = new System.Windows.Forms.Button();
             this.btnSnapshot = new System.Windows.Forms.Button();
-            this.infobarCapture = new Kinovea.ScreenManager.InfobarCapture();
-            this.fnbVideo = new Kinovea.ScreenManager.FilenameBox();
-            this.fnbImage = new Kinovea.ScreenManager.FilenameBox();
             this.sldrDelay = new Kinovea.ScreenManager.SliderLinear();
+            this.lblDelay = new System.Windows.Forms.Label();
+            this.pnlTitle = new System.Windows.Forms.Panel();
+            this.btnClose = new System.Windows.Forms.Button();
+            this.infobarCapture = new Kinovea.ScreenManager.InfobarCapture();
+            this.btnIcon = new System.Windows.Forms.Button();
+            this.lblCameraTitle = new System.Windows.Forms.Label();
+            this.pnlViewport = new System.Windows.Forms.Panel();
+            this.toolTips = new System.Windows.Forms.ToolTip(this.components);
             this.pnlControls.SuspendLayout();
             this.pnlDrawingToolsBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudDelay)).BeginInit();
-            this.pnlTitle.SuspendLayout();
             this.pnlCaptureDock.SuspendLayout();
+            this.pnlTitle.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlControls
@@ -89,140 +89,6 @@ namespace Kinovea.ScreenManager
             this.pnlControls.Size = new System.Drawing.Size(1261, 100);
             this.pnlControls.TabIndex = 3;
             // 
-            // pnlDrawingToolsBar
-            // 
-            this.pnlDrawingToolsBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlDrawingToolsBar.AutoScroll = true;
-            this.pnlDrawingToolsBar.BackColor = System.Drawing.Color.White;
-            this.pnlDrawingToolsBar.Controls.Add(this.btnFoldCapturedVideosPanel);
-            this.pnlDrawingToolsBar.Location = new System.Drawing.Point(1230, 64);
-            this.pnlDrawingToolsBar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.pnlDrawingToolsBar.Name = "pnlDrawingToolsBar";
-            this.pnlDrawingToolsBar.Size = new System.Drawing.Size(31, 43);
-            this.pnlDrawingToolsBar.TabIndex = 5;
-            this.pnlDrawingToolsBar.Visible = false;
-            this.pnlDrawingToolsBar.DoubleClick += new System.EventHandler(this.BtnCapturedVideosFold_Click);
-            // 
-            // pnlCapturedVideos
-            // 
-            this.pnlCapturedVideos.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlCapturedVideos.AutoScroll = true;
-            this.pnlCapturedVideos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(44)))), ((int)(((byte)(44)))));
-            this.pnlCapturedVideos.Location = new System.Drawing.Point(1200, 54);
-            this.pnlCapturedVideos.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.pnlCapturedVideos.Name = "pnlCapturedVideos";
-            this.pnlCapturedVideos.Size = new System.Drawing.Size(0, 53);
-            this.pnlCapturedVideos.TabIndex = 4;
-            this.pnlCapturedVideos.Visible = false;
-            this.pnlCapturedVideos.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlCapturedVideos_Paint);
-            // 
-            // nudDelay
-            // 
-            this.nudDelay.DecimalPlaces = 2;
-            this.nudDelay.Location = new System.Drawing.Point(821, 121);
-            this.nudDelay.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.nudDelay.Name = "nudDelay";
-            this.nudDelay.Size = new System.Drawing.Size(78, 26);
-            this.nudDelay.TabIndex = 48;
-            this.nudDelay.Visible = false;
-            this.nudDelay.ValueChanged += new System.EventHandler(this.NudDelay_ValueChanged);
-            // 
-            // lblDelay
-            // 
-            this.lblDelay.AutoSize = true;
-            this.lblDelay.BackColor = System.Drawing.Color.Transparent;
-            this.lblDelay.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDelay.Location = new System.Drawing.Point(907, 125);
-            this.lblDelay.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblDelay.Name = "lblDelay";
-            this.lblDelay.Size = new System.Drawing.Size(69, 17);
-            this.lblDelay.TabIndex = 2;
-            this.lblDelay.Text = "Delay (s):";
-            this.lblDelay.Visible = false;
-            // 
-            // pnlTitle
-            // 
-            this.pnlTitle.BackColor = System.Drawing.Color.White;
-            this.pnlTitle.Controls.Add(this.btnClose);
-            this.pnlTitle.Controls.Add(this.infobarCapture);
-            this.pnlTitle.Controls.Add(this.btnIcon);
-            this.pnlTitle.Controls.Add(this.lblCameraTitle);
-            this.pnlTitle.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlTitle.Location = new System.Drawing.Point(0, 0);
-            this.pnlTitle.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.pnlTitle.Name = "pnlTitle";
-            this.pnlTitle.Size = new System.Drawing.Size(1261, 37);
-            this.pnlTitle.TabIndex = 5;
-            // 
-            // btnIcon
-            // 
-            this.btnIcon.BackColor = System.Drawing.Color.Transparent;
-            this.btnIcon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnIcon.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnIcon.FlatAppearance.BorderSize = 0;
-            this.btnIcon.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btnIcon.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btnIcon.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnIcon.Location = new System.Drawing.Point(8, 3);
-            this.btnIcon.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnIcon.Name = "btnIcon";
-            this.btnIcon.Size = new System.Drawing.Size(30, 31);
-            this.btnIcon.TabIndex = 6;
-            this.btnIcon.UseVisualStyleBackColor = false;
-            this.btnIcon.Click += new System.EventHandler(this.LblCameraInfoClick);
-            // 
-            // lblCameraTitle
-            // 
-            this.lblCameraTitle.AutoSize = true;
-            this.lblCameraTitle.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblCameraTitle.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCameraTitle.Location = new System.Drawing.Point(45, 9);
-            this.lblCameraTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblCameraTitle.Name = "lblCameraTitle";
-            this.lblCameraTitle.Size = new System.Drawing.Size(117, 20);
-            this.lblCameraTitle.TabIndex = 4;
-            this.lblCameraTitle.Text = "Camera title";
-            this.lblCameraTitle.Click += new System.EventHandler(this.LblCameraInfoClick);
-            // 
-            // pnlViewport
-            // 
-            this.pnlViewport.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlViewport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(44)))), ((int)(((byte)(44)))));
-            this.pnlViewport.Location = new System.Drawing.Point(0, 38);
-            this.pnlViewport.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.pnlViewport.MinimumSize = new System.Drawing.Size(518, 38);
-            this.pnlViewport.Name = "pnlViewport";
-            this.pnlViewport.Size = new System.Drawing.Size(1261, 684);
-            this.pnlViewport.TabIndex = 6;
-            this.pnlViewport.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlViewport_Paint);
-            // 
-            // toolTips
-            // 
-            this.toolTips.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTips_Popup);
-            // 
-            // btnClose
-            // 
-            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClose.BackColor = System.Drawing.Color.Transparent;
-            this.btnClose.BackgroundImage = global::Kinovea.ScreenManager.Properties.Resources.closegrey;
-            this.btnClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnClose.FlatAppearance.BorderSize = 0;
-            this.btnClose.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btnClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnClose.Location = new System.Drawing.Point(1227, 3);
-            this.btnClose.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(30, 31);
-            this.btnClose.TabIndex = 2;
-            this.btnClose.UseVisualStyleBackColor = false;
-            this.btnClose.Click += new System.EventHandler(this.BtnClose_Click);
-            // 
             // button1
             // 
             this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -240,6 +106,21 @@ namespace Kinovea.ScreenManager
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // pnlDrawingToolsBar
+            // 
+            this.pnlDrawingToolsBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlDrawingToolsBar.AutoScroll = true;
+            this.pnlDrawingToolsBar.BackColor = System.Drawing.Color.White;
+            this.pnlDrawingToolsBar.Controls.Add(this.btnFoldCapturedVideosPanel);
+            this.pnlDrawingToolsBar.Location = new System.Drawing.Point(1230, 64);
+            this.pnlDrawingToolsBar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.pnlDrawingToolsBar.Name = "pnlDrawingToolsBar";
+            this.pnlDrawingToolsBar.Size = new System.Drawing.Size(31, 43);
+            this.pnlDrawingToolsBar.TabIndex = 5;
+            this.pnlDrawingToolsBar.Visible = false;
+            this.pnlDrawingToolsBar.DoubleClick += new System.EventHandler(this.BtnCapturedVideosFold_Click);
+            // 
             // btnFoldCapturedVideosPanel
             // 
             this.btnFoldCapturedVideosPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -251,13 +132,27 @@ namespace Kinovea.ScreenManager
             this.btnFoldCapturedVideosPanel.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.btnFoldCapturedVideosPanel.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btnFoldCapturedVideosPanel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnFoldCapturedVideosPanel.Location = new System.Drawing.Point(-4, 3);
+            this.btnFoldCapturedVideosPanel.Location = new System.Drawing.Point(-3, -6);
             this.btnFoldCapturedVideosPanel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnFoldCapturedVideosPanel.Name = "btnFoldCapturedVideosPanel";
             this.btnFoldCapturedVideosPanel.Size = new System.Drawing.Size(30, 31);
             this.btnFoldCapturedVideosPanel.TabIndex = 17;
             this.btnFoldCapturedVideosPanel.UseVisualStyleBackColor = false;
             this.btnFoldCapturedVideosPanel.Click += new System.EventHandler(this.BtnCapturedVideosFold_Click);
+            // 
+            // pnlCapturedVideos
+            // 
+            this.pnlCapturedVideos.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlCapturedVideos.AutoScroll = true;
+            this.pnlCapturedVideos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(44)))), ((int)(((byte)(44)))));
+            this.pnlCapturedVideos.Location = new System.Drawing.Point(1200, 54);
+            this.pnlCapturedVideos.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.pnlCapturedVideos.Name = "pnlCapturedVideos";
+            this.pnlCapturedVideos.Size = new System.Drawing.Size(0, 53);
+            this.pnlCapturedVideos.TabIndex = 4;
+            this.pnlCapturedVideos.Visible = false;
+            this.pnlCapturedVideos.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlCapturedVideos_Paint);
             // 
             // buttonPlay
             // 
@@ -294,6 +189,50 @@ namespace Kinovea.ScreenManager
             this.btnRecord.TabIndex = 24;
             this.btnRecord.UseVisualStyleBackColor = false;
             this.btnRecord.Click += new System.EventHandler(this.BtnRecordClick);
+            // 
+            // nudDelay
+            // 
+            this.nudDelay.DecimalPlaces = 2;
+            this.nudDelay.Location = new System.Drawing.Point(821, 121);
+            this.nudDelay.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.nudDelay.Name = "nudDelay";
+            this.nudDelay.Size = new System.Drawing.Size(78, 26);
+            this.nudDelay.TabIndex = 48;
+            this.nudDelay.Visible = false;
+            this.nudDelay.ValueChanged += new System.EventHandler(this.NudDelay_ValueChanged);
+            // 
+            // fnbVideo
+            // 
+            this.fnbVideo.BackColor = System.Drawing.Color.Transparent;
+            this.fnbVideo.Editable = true;
+            this.fnbVideo.Filename = "";
+            this.fnbVideo.Image = global::Kinovea.ScreenManager.Properties.Capture.folder_camera;
+            this.fnbVideo.InfoText = "Video:";
+            this.fnbVideo.Location = new System.Drawing.Point(1180, 62);
+            this.fnbVideo.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
+            this.fnbVideo.Name = "fnbVideo";
+            this.fnbVideo.Size = new System.Drawing.Size(63, 42);
+            this.fnbVideo.TabIndex = 42;
+            this.fnbVideo.Visible = false;
+            this.fnbVideo.ImageClick += new System.EventHandler(this.FNBVideo_ImageClick);
+            this.fnbVideo.FilenameChanged += new System.EventHandler(this.FnbVideo_FilenameChanged);
+            // 
+            // fnbImage
+            // 
+            this.fnbImage.BackColor = System.Drawing.Color.Transparent;
+            this.fnbImage.Editable = true;
+            this.fnbImage.Filename = "";
+            this.fnbImage.Image = global::Kinovea.ScreenManager.Properties.Capture.folder_image;
+            this.fnbImage.InfoText = "Image:";
+            this.fnbImage.Location = new System.Drawing.Point(1206, 58);
+            this.fnbImage.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
+            this.fnbImage.Name = "fnbImage";
+            this.fnbImage.Size = new System.Drawing.Size(68, 42);
+            this.fnbImage.TabIndex = 41;
+            this.fnbImage.Visible = false;
+            this.fnbImage.ImageClick += new System.EventHandler(this.FNBImage_ImageClick);
+            this.fnbImage.FilenameChanged += new System.EventHandler(this.FnbImage_FilenameChanged);
+            this.fnbImage.Load += new System.EventHandler(this.fnbImage_Load);
             // 
             // pnlCaptureDock
             // 
@@ -391,51 +330,6 @@ namespace Kinovea.ScreenManager
             this.btnSnapshot.Visible = false;
             this.btnSnapshot.Click += new System.EventHandler(this.BtnSnapshot_Click);
             // 
-            // infobarCapture
-            // 
-            this.infobarCapture.AutoSize = true;
-            this.infobarCapture.BackColor = System.Drawing.Color.Transparent;
-            this.infobarCapture.Enabled = false;
-            this.infobarCapture.Location = new System.Drawing.Point(188, 3);
-            this.infobarCapture.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
-            this.infobarCapture.Name = "infobarCapture";
-            this.infobarCapture.Size = new System.Drawing.Size(868, 34);
-            this.infobarCapture.TabIndex = 0;
-            this.infobarCapture.Visible = false;
-            // 
-            // fnbVideo
-            // 
-            this.fnbVideo.BackColor = System.Drawing.Color.Transparent;
-            this.fnbVideo.Editable = true;
-            this.fnbVideo.Filename = "";
-            this.fnbVideo.Image = global::Kinovea.ScreenManager.Properties.Capture.folder_camera;
-            this.fnbVideo.InfoText = "Video:";
-            this.fnbVideo.Location = new System.Drawing.Point(1180, 62);
-            this.fnbVideo.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
-            this.fnbVideo.Name = "fnbVideo";
-            this.fnbVideo.Size = new System.Drawing.Size(118, 42);
-            this.fnbVideo.TabIndex = 42;
-            this.fnbVideo.Visible = false;
-            this.fnbVideo.ImageClick += new System.EventHandler(this.FNBVideo_ImageClick);
-            this.fnbVideo.FilenameChanged += new System.EventHandler(this.FnbVideo_FilenameChanged);
-            // 
-            // fnbImage
-            // 
-            this.fnbImage.BackColor = System.Drawing.Color.Transparent;
-            this.fnbImage.Editable = true;
-            this.fnbImage.Filename = "";
-            this.fnbImage.Image = global::Kinovea.ScreenManager.Properties.Capture.folder_image;
-            this.fnbImage.InfoText = "Image:";
-            this.fnbImage.Location = new System.Drawing.Point(1206, 58);
-            this.fnbImage.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
-            this.fnbImage.Name = "fnbImage";
-            this.fnbImage.Size = new System.Drawing.Size(68, 42);
-            this.fnbImage.TabIndex = 41;
-            this.fnbImage.Visible = false;
-            this.fnbImage.ImageClick += new System.EventHandler(this.FNBImage_ImageClick);
-            this.fnbImage.FilenameChanged += new System.EventHandler(this.FnbImage_FilenameChanged);
-            this.fnbImage.Load += new System.EventHandler(this.fnbImage_Load);
-            // 
             // sldrDelay
             // 
             this.sldrDelay.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -453,6 +347,112 @@ namespace Kinovea.ScreenManager
             this.sldrDelay.Visible = false;
             this.sldrDelay.Click += new System.EventHandler(this.sldrDelay_Click);
             // 
+            // lblDelay
+            // 
+            this.lblDelay.AutoSize = true;
+            this.lblDelay.BackColor = System.Drawing.Color.Transparent;
+            this.lblDelay.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDelay.Location = new System.Drawing.Point(907, 125);
+            this.lblDelay.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblDelay.Name = "lblDelay";
+            this.lblDelay.Size = new System.Drawing.Size(69, 17);
+            this.lblDelay.TabIndex = 2;
+            this.lblDelay.Text = "Delay (s):";
+            this.lblDelay.Visible = false;
+            // 
+            // pnlTitle
+            // 
+            this.pnlTitle.BackColor = System.Drawing.Color.White;
+            this.pnlTitle.Controls.Add(this.btnClose);
+            this.pnlTitle.Controls.Add(this.infobarCapture);
+            this.pnlTitle.Controls.Add(this.btnIcon);
+            this.pnlTitle.Controls.Add(this.lblCameraTitle);
+            this.pnlTitle.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlTitle.Location = new System.Drawing.Point(0, 0);
+            this.pnlTitle.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.pnlTitle.Name = "pnlTitle";
+            this.pnlTitle.Size = new System.Drawing.Size(1261, 37);
+            this.pnlTitle.TabIndex = 5;
+            // 
+            // btnClose
+            // 
+            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClose.BackColor = System.Drawing.Color.Transparent;
+            this.btnClose.BackgroundImage = global::Kinovea.ScreenManager.Properties.Resources.closegrey;
+            this.btnClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnClose.FlatAppearance.BorderSize = 0;
+            this.btnClose.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btnClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClose.Location = new System.Drawing.Point(1227, 3);
+            this.btnClose.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(30, 31);
+            this.btnClose.TabIndex = 2;
+            this.btnClose.UseVisualStyleBackColor = false;
+            this.btnClose.Click += new System.EventHandler(this.BtnClose_Click);
+            // 
+            // infobarCapture
+            // 
+            this.infobarCapture.AutoSize = true;
+            this.infobarCapture.BackColor = System.Drawing.Color.Transparent;
+            this.infobarCapture.Enabled = false;
+            this.infobarCapture.Location = new System.Drawing.Point(188, 3);
+            this.infobarCapture.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
+            this.infobarCapture.Name = "infobarCapture";
+            this.infobarCapture.Size = new System.Drawing.Size(868, 34);
+            this.infobarCapture.TabIndex = 0;
+            this.infobarCapture.Visible = false;
+            // 
+            // btnIcon
+            // 
+            this.btnIcon.BackColor = System.Drawing.Color.Transparent;
+            this.btnIcon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnIcon.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnIcon.FlatAppearance.BorderSize = 0;
+            this.btnIcon.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btnIcon.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnIcon.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnIcon.Location = new System.Drawing.Point(8, 3);
+            this.btnIcon.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnIcon.Name = "btnIcon";
+            this.btnIcon.Size = new System.Drawing.Size(30, 31);
+            this.btnIcon.TabIndex = 6;
+            this.btnIcon.UseVisualStyleBackColor = false;
+            this.btnIcon.Click += new System.EventHandler(this.LblCameraInfoClick);
+            // 
+            // lblCameraTitle
+            // 
+            this.lblCameraTitle.AutoSize = true;
+            this.lblCameraTitle.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblCameraTitle.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCameraTitle.Location = new System.Drawing.Point(45, 9);
+            this.lblCameraTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblCameraTitle.Name = "lblCameraTitle";
+            this.lblCameraTitle.Size = new System.Drawing.Size(117, 20);
+            this.lblCameraTitle.TabIndex = 4;
+            this.lblCameraTitle.Text = "Camera title";
+            this.lblCameraTitle.Click += new System.EventHandler(this.LblCameraInfoClick);
+            // 
+            // pnlViewport
+            // 
+            this.pnlViewport.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlViewport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(44)))), ((int)(((byte)(44)))));
+            this.pnlViewport.Location = new System.Drawing.Point(0, 38);
+            this.pnlViewport.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.pnlViewport.MinimumSize = new System.Drawing.Size(518, 38);
+            this.pnlViewport.Name = "pnlViewport";
+            this.pnlViewport.Size = new System.Drawing.Size(1261, 684);
+            this.pnlViewport.TabIndex = 6;
+            this.pnlViewport.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlViewport_Paint);
+            // 
+            // toolTips
+            // 
+            this.toolTips.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTips_Popup);
+            // 
             // CaptureScreenView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -469,9 +469,9 @@ namespace Kinovea.ScreenManager
             this.pnlControls.PerformLayout();
             this.pnlDrawingToolsBar.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.nudDelay)).EndInit();
+            this.pnlCaptureDock.ResumeLayout(false);
             this.pnlTitle.ResumeLayout(false);
             this.pnlTitle.PerformLayout();
-            this.pnlCaptureDock.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

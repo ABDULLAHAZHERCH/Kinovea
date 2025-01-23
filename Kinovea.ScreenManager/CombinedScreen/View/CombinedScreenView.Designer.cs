@@ -57,7 +57,7 @@
             this.autoPlay.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
             this.autoPlay.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
             this.autoPlay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.autoPlay.Image = global::Kinovea.ScreenManager.Properties.Resources.roundgood;
+            this.autoPlay.Image = global::Kinovea.ScreenManager.Properties.Resources.check_mark1;
             this.autoPlay.Location = new System.Drawing.Point(639, -9);
             this.autoPlay.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.autoPlay.MinimumSize = new System.Drawing.Size(45, 38);

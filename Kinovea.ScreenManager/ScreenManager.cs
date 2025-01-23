@@ -76,6 +76,7 @@ namespace Kinovea.ScreenManager
         private List<string> camerasToDiscover = new List<string>();
         private AudioInputLevelMonitor audioInputLevelMonitor = new AudioInputLevelMonitor();
         private UDPMonitor udpMonitor = new UDPMonitor();
+        private CaptureScreen onlyScreen;
 
         #region Menus
 

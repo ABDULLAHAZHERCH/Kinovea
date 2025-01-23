@@ -28,6 +28,8 @@ using Kinovea.ScreenManager.Languages;
 using Kinovea.Services;
 using System.Web.WebSockets;
 using Kinovea.ScreenManager.Properties;
+using System.Threading;
+using DocumentFormat.OpenXml.Drawing;
 
 namespace Kinovea.ScreenManager
 {
@@ -69,6 +71,7 @@ namespace Kinovea.ScreenManager
         private bool autoPlayback = false;
         private bool playauto = false;
         private bool playautoagain = false;
+        PlayerScreen player;
         #endregion
 
         public CaptureScreenView(CaptureScreen presenter)
@@ -92,6 +95,8 @@ namespace Kinovea.ScreenManager
             //NudHelper.FixNudScroll(nudDelay);
 
             ConfigureDisplayControl(delayCompositeType);
+
+            player = new PlayerScreen();
 
             this.Hotkeys = HotkeySettingsManager.LoadHotkeys("CaptureScreen");
         }
@@ -369,6 +374,10 @@ namespace Kinovea.ScreenManager
         private void BtnRecordClick(object sender, EventArgs e)
         {
             presenter.View_ToggleRecording();
+            if (playauto && presenter.recorded1time)
+            {
+                callPlayer();
+            }
         }
         private void btnArm_Click(object sender, EventArgs e)
         {
@@ -576,9 +585,10 @@ namespace Kinovea.ScreenManager
             {
                 if (!IsCurrentlyPlaying)
                 {
-                    callPlayer();
                     IsCurrentlyPlaying = true;
                     buttonPlay.Image = Resources.flatpause3b;
+                    callPlayer();
+                    player.view.startPlay();
                 }
             }
         }
@@ -588,23 +598,58 @@ namespace Kinovea.ScreenManager
             presenter.ForceRecordingStatus(false);
             presenter.ForceGrabbingStatus(false);
             IsCurrentlyPlaying = true;
-
-            // Manage UI visibility
-            foreach (Control control in this.Controls)
-            {
-                control.Visible = false; // Hide all other controls
-            }
-
-            PlayerScreen player = new PlayerScreen();
-            this.Controls.Add(player.UI);
-
-
+            Size originalSize = this.Size;
+           
+            // Initialize video loading first if recording exists
             if (presenter.recorded1time)
             {
                 LoaderVideo.LoadVideo(player, presenter.recentFileName, null);
-                player.view.startPlay();
-                player.StartReplayWatcher(null,presenter.recentFileName);
             }
+
+            // Update UI states
+
+            // Configure player UI
+            player.UI.Size = originalSize;
+            player.UI.Dock = DockStyle.Fill;
+            player.UI.MinimumSize = originalSize;
+
+            // Update form layout
+            foreach (Control control in this.Controls)
+            {
+                control.Visible = false;
+            }
+            this.SuspendLayout();
+            this.Controls.Add(player.UI);
+            this.Size = originalSize;
+            this.ResumeLayout(true);
+
+
+            //presenter.ForceRecordingStatus(false);
+            //presenter.ForceGrabbingStatus(false);
+            //IsCurrentlyPlaying = true;
+            //Size originalSize = this.Size;
+            //this.SuspendLayout();
+
+            //// Manage UI visibility
+            //foreach (Control control in this.Controls)
+            //{
+            //    control.Visible = false; // Hide all other controls
+            //}
+
+            //PlayerScreen player = new PlayerScreen();
+            //player.UI.Size = originalSize;
+            //player.UI.Dock = DockStyle.Fill;
+            //player.UI.MinimumSize = originalSize;
+            //this.Size = originalSize;
+            //this.ResumeLayout(true);
+            //if (presenter.recorded1time)
+            //{
+            //    LoaderVideo.LoadVideo(player, presenter.recentFileName, null);
+            //    //player.view.startPlay();
+            //    //player.StartReplayWatcher(null,presenter.recentFileName);
+            //}
+            //else { }
+            //this.Controls.Add(player.UI);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -619,16 +664,7 @@ namespace Kinovea.ScreenManager
             }
             else
             {
-                // Second press: Play the video if it has been recorded
-                if (presenter.recorded1time) // Check if a recording exists
-                {
-                    button1.Image = Resources.check_mark1; // Reset the button image
-                    callPlayer(); // Play the recorded video
-                }
-                else
-                {
-                    MessageBox.Show("No video recorded yet!"); // Notify if no recording exists
-                }
+                button1.Image = Resources.check_mark1; // Reset the button image
             }
         }
 

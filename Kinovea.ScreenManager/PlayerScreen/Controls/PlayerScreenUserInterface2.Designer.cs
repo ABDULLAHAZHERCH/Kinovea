@@ -757,7 +757,7 @@ namespace Kinovea.ScreenManager
             this.panelCenter.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panelCenter.MinimumSize = new System.Drawing.Size(525, 38);
             this.panelCenter.Name = "panelCenter";
-            this.panelCenter.Size = new System.Drawing.Size(961, 527);
+            this.panelCenter.Size = new System.Drawing.Size(1245, 527);
             this.panelCenter.TabIndex = 2;
             this.panelCenter.MouseClick += new System.Windows.Forms.MouseEventHandler(this.PanelCenter_MouseClick);
             this.panelCenter.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PanelCenter_MouseDown);
@@ -771,7 +771,7 @@ namespace Kinovea.ScreenManager
             this.ImageResizerNE.Cursor = System.Windows.Forms.Cursors.SizeNESW;
             this.ImageResizerNE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ImageResizerNE.Image = global::Kinovea.ScreenManager.Properties.Resources.resizer4;
-            this.ImageResizerNE.Location = new System.Drawing.Point(302, 117);
+            this.ImageResizerNE.Location = new System.Drawing.Point(444, 117);
             this.ImageResizerNE.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.ImageResizerNE.Name = "ImageResizerNE";
             this.ImageResizerNE.Size = new System.Drawing.Size(9, 9);
@@ -787,7 +787,7 @@ namespace Kinovea.ScreenManager
             this.ImageResizerNW.Cursor = System.Windows.Forms.Cursors.SizeNWSE;
             this.ImageResizerNW.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ImageResizerNW.Image = global::Kinovea.ScreenManager.Properties.Resources.resizer4;
-            this.ImageResizerNW.Location = new System.Drawing.Point(250, 117);
+            this.ImageResizerNW.Location = new System.Drawing.Point(392, 117);
             this.ImageResizerNW.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.ImageResizerNW.Name = "ImageResizerNW";
             this.ImageResizerNW.Size = new System.Drawing.Size(9, 9);
@@ -803,7 +803,7 @@ namespace Kinovea.ScreenManager
             this.ImageResizerSW.Cursor = System.Windows.Forms.Cursors.SizeNESW;
             this.ImageResizerSW.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ImageResizerSW.Image = global::Kinovea.ScreenManager.Properties.Resources.resizer4;
-            this.ImageResizerSW.Location = new System.Drawing.Point(250, 155);
+            this.ImageResizerSW.Location = new System.Drawing.Point(392, 155);
             this.ImageResizerSW.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.ImageResizerSW.Name = "ImageResizerSW";
             this.ImageResizerSW.Size = new System.Drawing.Size(9, 9);
@@ -820,7 +820,7 @@ namespace Kinovea.ScreenManager
             this.ImageResizerSE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ImageResizerSE.ForeColor = System.Drawing.Color.Transparent;
             this.ImageResizerSE.Image = global::Kinovea.ScreenManager.Properties.Resources.resizer4;
-            this.ImageResizerSE.Location = new System.Drawing.Point(302, 155);
+            this.ImageResizerSE.Location = new System.Drawing.Point(444, 155);
             this.ImageResizerSE.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.ImageResizerSE.Name = "ImageResizerSE";
             this.ImageResizerSE.Size = new System.Drawing.Size(9, 9);
@@ -1023,7 +1023,7 @@ namespace Kinovea.ScreenManager
             this.splitViewport_Properties.Panel2.BackColor = System.Drawing.Color.White;
             this.splitViewport_Properties.Panel2.Controls.Add(this.tabProperties);
             this.splitViewport_Properties.Size = new System.Drawing.Size(1298, 527);
-            this.splitViewport_Properties.SplitterDistance = 961;
+            this.splitViewport_Properties.SplitterDistance = 1245;
             this.splitViewport_Properties.SplitterWidth = 6;
             this.splitViewport_Properties.TabIndex = 3;
             // 
@@ -1039,7 +1039,7 @@ namespace Kinovea.ScreenManager
             this.tabProperties.Margin = new System.Windows.Forms.Padding(0);
             this.tabProperties.Name = "tabProperties";
             this.tabProperties.SelectedIndex = 0;
-            this.tabProperties.Size = new System.Drawing.Size(331, 527);
+            this.tabProperties.Size = new System.Drawing.Size(47, 527);
             this.tabProperties.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabProperties.TabIndex = 0;
             this.tabProperties.Visible = false;
@@ -1051,7 +1051,7 @@ namespace Kinovea.ScreenManager
             this.tabPage1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage1.Size = new System.Drawing.Size(323, 495);
+            this.tabPage1.Size = new System.Drawing.Size(39, 495);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.UseVisualStyleBackColor = true;
             // 

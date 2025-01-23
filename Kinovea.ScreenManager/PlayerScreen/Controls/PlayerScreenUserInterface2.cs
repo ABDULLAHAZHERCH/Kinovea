@@ -478,6 +478,7 @@ namespace Kinovea.ScreenManager
 
             EnableDisableActions(false);
 
+
             this.Hotkeys = HotkeySettingsManager.LoadHotkeys("PlayerScreen");
         }
         #endregion
@@ -2743,6 +2744,11 @@ namespace Kinovea.ScreenManager
             {
                 StopPlaying();
                 ShowNextFrame(m_iSelStart, true);
+            }
+            else if (m_ePlayingMode == PlayingMode.Once)
+            {
+                StopPlaying();
+                ShowNextFrame(m_iSelStart, true);  // Reload content without playing
             }
             else if (m_ePlayingMode == PlayingMode.Loop)
             {
@@ -5674,25 +5680,25 @@ namespace Kinovea.ScreenManager
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (AutoPlayback)
-            {
-                StopPlaying();
-                // Disable auto playback
-                AutoPlayback = false;
-                button1.Image = Resources.x_mark1;
+            //if (AutoPlayback)
+            //{
+            //    StopPlaying();
+            //    // Disable auto playback
+            //    AutoPlayback = false;
+            //    button1.Image = Resources.x_mark1;
 
-                // Ensure playback mode is not looping
-                m_ePlayingMode = PlayingMode.Loop; // Assuming PlayingMode.Once is part of your existing setup
-            }
-            else
-            {
-                StopPlaying();
-                AutoPlayback = true;
-                button1.Image = Resources.check_mark1;
+            //    // Ensure playback mode is not looping
+            //    m_ePlayingMode = PlayingMode.Loop; 
+            //}
+            //else
+            //{
+            //    StopPlaying();
+            //    AutoPlayback = true;
+            //    button1.Image = Resources.check_mark1;
 
-                // Set playback mode to auto-play once
-                m_ePlayingMode = PlayingMode.Once;
-            }
+            //    // Set playback mode to auto-play once
+            //    m_ePlayingMode = PlayingMode.Once;
+            //}
 
         }
 
@@ -5706,21 +5712,30 @@ namespace Kinovea.ScreenManager
             else
             {
                 StopPlaying();
+                Size originalSize = this.Size;
                 isCurrentlyRecording = true;
                 btnRecord.Image = Properties.Capture.record_start;
+                this.SuspendLayout();
                 foreach (Control control in this.Controls)
                 {
                     control.Visible = false; // Hide all existing controls
                 }
+                //this.Controls.Clear();
                 CaptureScreen screen = new CaptureScreen();
                 if (LoaderCamera.CameraSummary != null)
                 {
                     screen.LoadCamera(LoaderCamera.CameraSummary, LoaderCamera.ScreenDescriptionCapture);
                     screen.loaded = true;
                     screen.ForceRecordingStatus(true);
+
+                    screen.UI.Size = originalSize;  
+                    screen.UI.Dock = DockStyle.Fill;
+                    screen.UI.MinimumSize = originalSize;
                 }
                 else { }
                 this.Controls.Add(screen.UI);
+                this.Size = originalSize;  
+                this.ResumeLayout(true);
             }
         }
 
