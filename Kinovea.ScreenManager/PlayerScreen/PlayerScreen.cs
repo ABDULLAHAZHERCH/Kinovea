@@ -418,8 +418,6 @@ namespace Kinovea.ScreenManager
             
             frameServer.Metadata.AddTrackableDrawingCommand = new RelayCommand<ITrackable>(AddTrackableDrawing);
             frameServer.Metadata.CameraCalibrationAsked += (s, e) => ShowCameraCalibration();
-
-            view.startPlay();
         }
 
         #region General events handlers

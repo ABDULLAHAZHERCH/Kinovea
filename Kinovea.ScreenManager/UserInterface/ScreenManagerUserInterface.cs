@@ -175,7 +175,7 @@ namespace Kinovea.ScreenManager
         private void PrepareLeftScreen(UserControl screenUI)
         {
             splitScreens.Panel1Collapsed = false;
-            splitScreens.Panel1.AllowDrop = true;
+            splitScreens.Panel1.AllowDrop = false;
             splitScreens.Panel1.Controls.Add(screenUI);
             screenUI.Dock = DockStyle.Fill;
         }
@@ -209,7 +209,7 @@ namespace Kinovea.ScreenManager
         #region DragDrop
         private void DroppableArea_DragOver(object sender, DragEventArgs e)
         {
-            e.Effect = DragDropEffects.All;
+            e.Effect = DragDropEffects.None;
         }
         private void ScreenManagerUserInterface_DragDrop(object sender, DragEventArgs e)
         {

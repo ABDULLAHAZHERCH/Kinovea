@@ -40,6 +40,7 @@ using Kinovea.Services;
 using System.Xml;
 using System.Text;
 using Kinovea.Camera;
+using System.Threading.Tasks;
 #endregion
 
 namespace Kinovea.ScreenManager
@@ -453,7 +454,14 @@ namespace Kinovea.ScreenManager
 
             // Controls that renders differently between run time and design time.
             this.Dock = DockStyle.Fill;
-            ShowHideRenderingSurface(false);
+
+
+            pbSurfaceScreen.Size = SingleCapture.Instance.CaptureScreenSize;
+            pbSurfaceScreen.Visible = true;
+
+            //ShowHideRenderingSurface(false);
+
+
             SetupPrimarySelectionPanel();
             pnlThumbnails.Controls.Clear();
             keyframeBoxes.Clear();
@@ -478,12 +486,12 @@ namespace Kinovea.ScreenManager
 
             EnableDisableActions(false);
 
-
             this.Hotkeys = HotkeySettingsManager.LoadHotkeys("PlayerScreen");
         }
         #endregion
 
         #region Public Methods
+
         public void ResetToEmptyState()
         {
             // Called when we load a new video over an already loaded screen.
@@ -498,7 +506,10 @@ namespace Kinovea.ScreenManager
             btnExitFilter.Visible = false;
 
             // 2. Reset all interface.
-            ShowHideRenderingSurface(false);
+            StretchSqueezeSurface(true);
+            ShowHideRenderingSurface(true);
+            //UpdatePositionUI();
+            //ShowHideRenderingSurface(false);
             SetupPrimarySelectionPanel();
             ClearKeyframeBoxes();
             //sidePanelKeyframes.Clear();
@@ -547,6 +558,11 @@ namespace Kinovea.ScreenManager
                 EnableDisableAllPlayingControls(false);
             else
                 EnableDisableAllPlayingControls(enable);
+        }
+        public void InitializePictureBox(Image image)
+        {
+            pbSurfaceScreen.Image = image; // A default placeholder image
+            pbSurfaceScreen.Visible = true;
         }
         public int PostLoadProcess()
         {
@@ -1869,6 +1885,7 @@ namespace Kinovea.ScreenManager
         {
             if (m_FrameServer.Loaded)
             {
+                m_ePlayingMode = PlayingMode.Once;
                 OnPoke();
                 OnButtonPlay();
             }
@@ -2449,8 +2466,8 @@ namespace Kinovea.ScreenManager
 
             m_viewportManipulator.Manipulate(finished, panelCenter.Size, targetStretch, m_fill, m_FrameServer.ImageTransform.Zoom, canCustomDecodingSize, rotatedCanvas);
 
-            pbSurfaceScreen.Location = m_viewportManipulator.RenderingLocation;
-            pbSurfaceScreen.Size = m_viewportManipulator.RenderingSize;
+            //pbSurfaceScreen.Location = m_viewportManipulator.RenderingLocation;
+            //pbSurfaceScreen.Size = m_viewportManipulator.RenderingSize;
             m_FrameServer.ImageTransform.Stretch = m_viewportManipulator.Stretch;
             ReplaceResizers();
         }
@@ -2807,7 +2824,7 @@ namespace Kinovea.ScreenManager
             //m_TimeWatcher.DumpTimes();
             m_LoopWatcher.AddLoopTime(m_TimeWatcher.RawTime("Back to idleness"));
         }
-        private bool ShowNextFrame(long _iSeekTarget, bool _bAllowUIUpdate)
+        public bool ShowNextFrame(long _iSeekTarget, bool _bAllowUIUpdate)
         {
             if (!m_FrameServer.VideoReader.Loaded)
                 return false;
@@ -2815,7 +2832,8 @@ namespace Kinovea.ScreenManager
             // TODO: More refactoring needed.
             // Eradicate the scheme where we use the _iSeekTarget parameter to mean two things.
             if (m_bIsCurrentlyPlaying)
-                throw new ThreadStateException("ShowNextFrame called while play loop.");
+                return false;
+                //throw new ThreadStateException("ShowNextFrame called while play loop.");
 
             bool refreshInPlace = _iSeekTarget == m_iCurrentPosition;
             bool hasMore = false;
@@ -5680,25 +5698,15 @@ namespace Kinovea.ScreenManager
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //if (AutoPlayback)
-            //{
-            //    StopPlaying();
-            //    // Disable auto playback
-            //    AutoPlayback = false;
-            //    button1.Image = Resources.x_mark1;
-
-            //    // Ensure playback mode is not looping
-            //    m_ePlayingMode = PlayingMode.Loop; 
-            //}
-            //else
-            //{
-            //    StopPlaying();
-            //    AutoPlayback = true;
-            //    button1.Image = Resources.check_mark1;
-
-            //    // Set playback mode to auto-play once
-            //    m_ePlayingMode = PlayingMode.Once;
-            //}
+            AutoPlayback = !AutoPlayback;
+            if (AutoPlayback)
+            {
+                button1.Image = Resources.x_mark1;
+            }
+            else
+            {
+                button1.Image = Resources.check_mark1;
+            }
 
         }
 
@@ -5712,29 +5720,51 @@ namespace Kinovea.ScreenManager
             else
             {
                 StopPlaying();
+                //if (IsCurrentlyPlaying)
+                //    ResetToEmptyState();
                 Size originalSize = this.Size;
-                isCurrentlyRecording = true;
+                //isCurrentlyRecording = true;
                 btnRecord.Image = Properties.Capture.record_start;
-                this.SuspendLayout();
+
+                List<Control> controls = new List<Control>();
                 foreach (Control control in this.Controls)
                 {
+                    controls.Add(control);
                     control.Visible = false; // Hide all existing controls
+                    SingleCapture.Instance.UIG.Visible = false;
+
                 }
+                SinglePlayer.Instance.PlayerControls = controls;
                 //this.Controls.Clear();
-                CaptureScreen screen = new CaptureScreen();
+                //CaptureScreen screen = new CaptureScreen();
                 if (LoaderCamera.CameraSummary != null)
                 {
-                    screen.LoadCamera(LoaderCamera.CameraSummary, LoaderCamera.ScreenDescriptionCapture);
-                    screen.loaded = true;
-                    screen.ForceRecordingStatus(true);
+                    SingleCapture.Instance.CaptureScreen.LoadCamera(LoaderCamera.CameraSummary, LoaderCamera.ScreenDescriptionCapture);
+                    SingleCapture.Instance.CaptureScreen.loaded = true;
+                    SingleCapture.Instance.CaptureScreen.ForceRecordingStatus(true);
 
-                    screen.UI.Size = originalSize;  
-                    screen.UI.Dock = DockStyle.Fill;
-                    screen.UI.MinimumSize = originalSize;
+                    SingleCapture.Instance.CaptureScreen.UI.Size = originalSize;
+                    SingleCapture.Instance.CaptureScreen.UI.Dock = DockStyle.Fill;
+                    SingleCapture.Instance.CaptureScreen.UI.MinimumSize = originalSize;
                 }
-                else { }
-                this.Controls.Add(screen.UI);
-                this.Size = originalSize;  
+
+                if (SingleCapture.Instance.CaptureControls.Count == 0)
+                {
+                    this.Controls.Add(SingleCapture.Instance.CaptureScreen.UI);
+                    SingleCapture.Instance.UIG = SingleCapture.Instance.CaptureScreen.UI;
+                }
+                else
+                {
+                    foreach (Control control in SingleCapture.Instance.CaptureControls)
+                    {
+                        control.Visible = true;
+                    }
+                    SingleCapture.Instance.UIG.Visible = true;
+                }
+
+                this.SuspendLayout();
+                this.Size = originalSize;
+                //this.PerformLayout();
                 this.ResumeLayout(true);
             }
         }

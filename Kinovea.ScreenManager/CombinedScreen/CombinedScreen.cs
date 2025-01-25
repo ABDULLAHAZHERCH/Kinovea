@@ -20,8 +20,8 @@ namespace Kinovea.ScreenManager
 
         public CombinedScreen()
         {
-            captureScreen = new CaptureScreen();
-            playerScreen = new PlayerScreen();
+            //captureScreen = new CaptureScreen();
+            //playerScreen = new PlayerScreen();
             combinedView = new CombinedScreenView(this);
         }
 

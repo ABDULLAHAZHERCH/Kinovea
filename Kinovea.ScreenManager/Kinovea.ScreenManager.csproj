@@ -641,6 +641,8 @@
     <Compile Include="Measurement\Kinematics\FilteringResult.cs" />
     <Compile Include="Measurement\Kinematics\LinearKinematics.cs" />
     <Compile Include="Measurement\Kinematics\StatsHelper.cs" />
+    <Compile Include="Singleton\SingleCapture.cs" />
+    <Compile Include="Singleton\SinglePlayer.cs" />
     <Compile Include="Tracking\Tracking\Circle\TrackerCircle.cs" />
     <Compile Include="Tracking\Tracking\TrackStatus.cs" />
     <Compile Include="Measurement\LensDistortion\FormCalibrateDistortion.cs">

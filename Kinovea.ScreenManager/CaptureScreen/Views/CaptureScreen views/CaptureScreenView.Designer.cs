@@ -82,11 +82,11 @@ namespace Kinovea.ScreenManager
             this.pnlControls.Controls.Add(this.pnlCaptureDock);
             this.pnlControls.Controls.Add(this.sldrDelay);
             this.pnlControls.Controls.Add(this.lblDelay);
-            this.pnlControls.Location = new System.Drawing.Point(0, 720);
+            this.pnlControls.Location = new System.Drawing.Point(0, 728);
             this.pnlControls.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pnlControls.MinimumSize = new System.Drawing.Size(262, 100);
             this.pnlControls.Name = "pnlControls";
-            this.pnlControls.Size = new System.Drawing.Size(1261, 100);
+            this.pnlControls.Size = new System.Drawing.Size(1260, 100);
             this.pnlControls.TabIndex = 3;
             // 
             // button1
@@ -101,7 +101,7 @@ namespace Kinovea.ScreenManager
             this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button1.MinimumSize = new System.Drawing.Size(45, 38);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(57, 53);
+            this.button1.Size = new System.Drawing.Size(55, 57);
             this.button1.TabIndex = 50;
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -116,7 +116,7 @@ namespace Kinovea.ScreenManager
             this.pnlDrawingToolsBar.Location = new System.Drawing.Point(1230, 64);
             this.pnlDrawingToolsBar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pnlDrawingToolsBar.Name = "pnlDrawingToolsBar";
-            this.pnlDrawingToolsBar.Size = new System.Drawing.Size(31, 43);
+            this.pnlDrawingToolsBar.Size = new System.Drawing.Size(30, 43);
             this.pnlDrawingToolsBar.TabIndex = 5;
             this.pnlDrawingToolsBar.Visible = false;
             this.pnlDrawingToolsBar.DoubleClick += new System.EventHandler(this.BtnCapturedVideosFold_Click);
@@ -132,7 +132,7 @@ namespace Kinovea.ScreenManager
             this.btnFoldCapturedVideosPanel.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.btnFoldCapturedVideosPanel.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btnFoldCapturedVideosPanel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnFoldCapturedVideosPanel.Location = new System.Drawing.Point(-3, -6);
+            this.btnFoldCapturedVideosPanel.Location = new System.Drawing.Point(-4, -6);
             this.btnFoldCapturedVideosPanel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnFoldCapturedVideosPanel.Name = "btnFoldCapturedVideosPanel";
             this.btnFoldCapturedVideosPanel.Size = new System.Drawing.Size(30, 31);
@@ -371,7 +371,7 @@ namespace Kinovea.ScreenManager
             this.pnlTitle.Location = new System.Drawing.Point(0, 0);
             this.pnlTitle.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pnlTitle.Name = "pnlTitle";
-            this.pnlTitle.Size = new System.Drawing.Size(1261, 37);
+            this.pnlTitle.Size = new System.Drawing.Size(1260, 37);
             this.pnlTitle.TabIndex = 5;
             // 
             // btnClose
@@ -385,7 +385,7 @@ namespace Kinovea.ScreenManager
             this.btnClose.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.btnClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnClose.Location = new System.Drawing.Point(1227, 3);
+            this.btnClose.Location = new System.Drawing.Point(1226, 3);
             this.btnClose.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(30, 31);
@@ -445,7 +445,7 @@ namespace Kinovea.ScreenManager
             this.pnlViewport.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pnlViewport.MinimumSize = new System.Drawing.Size(518, 38);
             this.pnlViewport.Name = "pnlViewport";
-            this.pnlViewport.Size = new System.Drawing.Size(1261, 684);
+            this.pnlViewport.Size = new System.Drawing.Size(1260, 700);
             this.pnlViewport.TabIndex = 6;
             this.pnlViewport.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlViewport_Paint);
             // 
@@ -464,7 +464,7 @@ namespace Kinovea.ScreenManager
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MinimumSize = new System.Drawing.Size(800, 800);
             this.Name = "CaptureScreenView";
-            this.Size = new System.Drawing.Size(1261, 828);
+            this.Size = new System.Drawing.Size(1260, 828);
             this.pnlControls.ResumeLayout(false);
             this.pnlControls.PerformLayout();
             this.pnlDrawingToolsBar.ResumeLayout(false);

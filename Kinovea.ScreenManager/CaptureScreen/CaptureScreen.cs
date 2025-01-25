@@ -778,7 +778,7 @@ namespace Kinovea.ScreenManager
             else
                 Connect2();
         }
-
+        
         private void Connect2()
         {
             // Second part of Connect function. 
@@ -798,6 +798,10 @@ namespace Kinovea.ScreenManager
             // Make sure the viewport will not use the bitmap allocated by the consumerDisplay as it is about to be disposed.
             viewportController.ForgetBitmap();
             viewportController.InitializeDisplayRectangle(cameraSummary.DisplayRectangle, referenceSize);
+
+
+            SingleCapture.Instance.CaptureScreenSize = referenceSize;
+            SingleCapture.Instance.CaptureScreenLocation = cameraSummary.DisplayRectangle.Location;
 
             // The behavior of how we pull frames from the pipeline, push them to the delayer, record them to disk and display them is dependent 
             // on the recording mode (even while not recording). The recoring mode does not change for the camera connection session. 
@@ -1804,6 +1808,10 @@ namespace Kinovea.ScreenManager
 
                 viewportController.StoppingRecording();
                 AfterStopRecording(finalFilename);
+                if (recorded1time)
+                {
+                    LoaderVideo.LoadVideo(SinglePlayer.Instance.PlayerScreen, recentFileName, null);
+                }
             }
             else // recordingMode == CaptureRecordingMode.Scheduled
             {

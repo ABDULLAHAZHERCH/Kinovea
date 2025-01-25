@@ -3035,22 +3035,22 @@ namespace Kinovea.ScreenManager
         }
         public void AddPlayerScreen()
         {
-            PlayerScreen screen = new PlayerScreen();
+            //PlayerScreen screen = new PlayerScreen();
             //CombinedScreen screen = new CombinedScreen();
-            screen.RefreshUICulture();
-            AddScreen(screen);
+            SinglePlayer.Instance.PlayerScreen.RefreshUICulture();
+            AddScreen(SinglePlayer.Instance.PlayerScreen);
         }
         public void AddCaptureScreen()
         {
 
-            CaptureScreen screen = new CaptureScreen();
+            //CaptureScreen screen = new CaptureScreen();
             //CombinedScreen screen = new CombinedScreen();
 
             if (screenList.Count > 0)
-                screen.SetShared(true);
+                SingleCapture.Instance.CaptureScreen.SetShared(true);
 
-            screen.RefreshUICulture();
-            AddScreen(screen);
+            SingleCapture.Instance.CaptureScreen.RefreshUICulture();
+            AddScreen(SingleCapture.Instance.CaptureScreen);
         }
 
         /// <summary>
