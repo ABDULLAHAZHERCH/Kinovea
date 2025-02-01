@@ -31,6 +31,7 @@ using Kinovea.ScreenManager.Properties;
 using System.Threading;
 using DocumentFormat.OpenXml.Drawing;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Kinovea.ScreenManager
 {
@@ -44,6 +45,7 @@ namespace Kinovea.ScreenManager
         public bool PlayAuto
         {
             get { return playauto; }
+            set { playauto = value; }
         }
         public string CurrentImageFilename
         {
@@ -68,7 +70,7 @@ namespace Kinovea.ScreenManager
         private bool armed = true;
         private DelayCompositeType delayCompositeType = DelayCompositeType.Basic;
         private bool delayUpdating;
-        private bool IsCurrentlyPlaying= false;
+        private bool IsCurrentlyPlaying = false;
         private bool autoPlayback = false;
         private bool playauto = false;
         private bool playautoagain = false;
@@ -372,12 +374,22 @@ namespace Kinovea.ScreenManager
         private void BtnRecordClick(object sender, EventArgs e)
         {
             presenter.View_ToggleRecording();
-            //loadVideo();
-            if (playauto)
+            Task.Delay(200).ContinueWith(t =>
             {
-                callPlayer();
-                SinglePlayer.Instance.PlayerScreen.view.startPlay();
-            }
+                this.BeginInvoke(new Action(() =>
+                {
+                    if (playauto && presenter.recorded1time)
+                    {
+                        callPlayer();
+                        SinglePlayer.Instance.PlayerScreen.view.startPlay();
+                    }
+                    else if (!playauto && presenter.recorded1time)
+                    {
+                        callPlayer();
+                    }
+                }));
+            });
+
         }
         private void btnArm_Click(object sender, EventArgs e)
         {
@@ -577,14 +589,11 @@ namespace Kinovea.ScreenManager
         {
             if (IsCurrentlyPlaying)
             {
-                // Pause playback
                 IsCurrentlyPlaying = false;
                 buttonPlay.Image = Resources.flatplay;
             }
             else
             {
-                //IsCurrentlyPlaying = true;
-                //buttonPlay.Image = Resources.flatpause3b;
                 callPlayer();
                 SinglePlayer.Instance.PlayerScreen.view.startPlay();
             }
@@ -593,18 +602,13 @@ namespace Kinovea.ScreenManager
         public void callPlayer()
         {
             presenter.ForceRecordingStatus(false);
-            presenter.ForceGrabbingStatus(false);
-
+            //presenter.ForceGrabbingStatus(false);
             Size originalSize = this.Size;
 
-            // Initialize video loading first if recording exists
-
-            // Configure player UI
             SinglePlayer.Instance.PlayerScreen.UI.Size = originalSize;
             SinglePlayer.Instance.PlayerScreen.UI.Dock = DockStyle.Fill;
             SinglePlayer.Instance.PlayerScreen.UI.MinimumSize = originalSize;
 
-            // Update form layout
             List<Control> controls = new List<Control>();
             foreach (Control control in this.Controls)
             {
@@ -627,39 +631,9 @@ namespace Kinovea.ScreenManager
                 }
                 SinglePlayer.Instance.UIG.Visible = true;
             }
-
             this.SuspendLayout();
             this.Size = originalSize;
-            //this.PerformLayout();
             this.ResumeLayout(true);
-
-
-            //presenter.ForceRecordingStatus(false);
-            //presenter.ForceGrabbingStatus(false);
-            //IsCurrentlyPlaying = true;
-            //Size originalSize = this.Size;
-            //this.SuspendLayout();
-
-            //// Manage UI visibility
-            //foreach (Control control in this.Controls)
-            //{
-            //    control.Visible = false; // Hide all other controls
-            //}
-
-            //PlayerScreen player = new PlayerScreen();
-            //player.UI.Size = originalSize;
-            //player.UI.Dock = DockStyle.Fill;
-            //player.UI.MinimumSize = originalSize;
-            //this.Size = originalSize;
-            //this.ResumeLayout(true);
-            //if (presenter.recorded1time)
-            //{
-            //    LoaderVideo.LoadVideo(player, presenter.recentFileName, null);
-            //    //player.view.startPlay();
-            //    //player.StartReplayWatcher(null,presenter.recentFileName);
-            //}
-            //else { }
-            //this.Controls.Add(player.UI);
         }
         public void loadVideo()
         {
@@ -671,17 +645,15 @@ namespace Kinovea.ScreenManager
 
         private void button1_Click(object sender, EventArgs e)
         {
-            // Toggle the play state
             playauto = !playauto;
 
             if (playauto)
             {
-                // First press: Indicate playing mode is active
                 button1.Image = Resources.x_mark1;
             }
             else
             {
-                button1.Image = Resources.check_mark1; // Reset the button image
+                button1.Image = Resources.check_mark1;
             }
         }
 
@@ -705,6 +677,11 @@ namespace Kinovea.ScreenManager
         private void pnlViewport_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            playauto = autoplaybox.Checked;
         }
     }
 }

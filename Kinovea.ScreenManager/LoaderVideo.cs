@@ -251,6 +251,7 @@ namespace Kinovea.ScreenManager
         private static void DisplayErrorAndDisable(PlayerScreen player, string error)
         {
             player.view.EnableDisableActions(false);
+            return;
 
             MessageBox.Show(
                 error,

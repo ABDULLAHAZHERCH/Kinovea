@@ -1136,7 +1136,7 @@ namespace Kinovea.ScreenManager
             m_iFramesToDecode = 1;
 
             m_bIsCurrentlyPlaying = false;
-            m_ePlayingMode = PlayingMode.Loop;
+            m_ePlayingMode = PlayingMode.Once;
             m_fill = false;
             m_FrameServer.ImageTransform.Reset();
             m_lastUserStretch = 1.0f;
@@ -2833,7 +2833,7 @@ namespace Kinovea.ScreenManager
             // Eradicate the scheme where we use the _iSeekTarget parameter to mean two things.
             if (m_bIsCurrentlyPlaying)
                 return false;
-                //throw new ThreadStateException("ShowNextFrame called while play loop.");
+            //throw new ThreadStateException("ShowNextFrame called while play loop.");
 
             bool refreshInPlace = _iSeekTarget == m_iCurrentPosition;
             bool hasMore = false;
@@ -5720,26 +5720,21 @@ namespace Kinovea.ScreenManager
             else
             {
                 StopPlaying();
-                //if (IsCurrentlyPlaying)
-                //    ResetToEmptyState();
                 Size originalSize = this.Size;
-                //isCurrentlyRecording = true;
                 btnRecord.Image = Properties.Capture.record_start;
 
                 List<Control> controls = new List<Control>();
                 foreach (Control control in this.Controls)
                 {
                     controls.Add(control);
-                    control.Visible = false; // Hide all existing controls
+                    control.Visible = false;
                     SingleCapture.Instance.UIG.Visible = false;
 
                 }
                 SinglePlayer.Instance.PlayerControls = controls;
-                //this.Controls.Clear();
-                //CaptureScreen screen = new CaptureScreen();
                 if (LoaderCamera.CameraSummary != null)
                 {
-                    SingleCapture.Instance.CaptureScreen.LoadCamera(LoaderCamera.CameraSummary, LoaderCamera.ScreenDescriptionCapture);
+                    //SingleCapture.Instance.CaptureScreen.LoadCamera(LoaderCamera.CameraSummary, LoaderCamera.ScreenDescriptionCapture);
                     SingleCapture.Instance.CaptureScreen.loaded = true;
                     SingleCapture.Instance.CaptureScreen.ForceRecordingStatus(true);
 
@@ -5764,7 +5759,6 @@ namespace Kinovea.ScreenManager
 
                 this.SuspendLayout();
                 this.Size = originalSize;
-                //this.PerformLayout();
                 this.ResumeLayout(true);
             }
         }
@@ -5777,6 +5771,11 @@ namespace Kinovea.ScreenManager
         private void splitKeyframes_Panel2_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void autoplaybox_CheckedChanged(object sender, EventArgs e)
+        {
+            SingleCapture.Instance.CaptureScreen.View.PlayAuto = autoplaybox.Checked;
         }
     }
 }

@@ -38,6 +38,7 @@ using Kinovea.Video;
 using Kinovea.Pipeline;
 using Kinovea.Video.FFMpeg;
 using Kinovea.Services;
+using System.Threading.Tasks;
 
 namespace Kinovea.ScreenManager
 {
@@ -55,6 +56,10 @@ namespace Kinovea.ScreenManager
 
         #region Properties
 
+        public CaptureScreenView View
+        {
+            get { return view as CaptureScreenView; }
+        }
         public CameraSummary Csummary
         {
             get { return cSummary; }
@@ -81,7 +86,7 @@ namespace Kinovea.ScreenManager
         public override Guid Id
         {
             get { return id; }
-            set { id = value;}
+            set { id = value; }
         }
         public override bool Full
         {
@@ -89,9 +94,9 @@ namespace Kinovea.ScreenManager
         }
         public override string FileName
         {
-            get 
+            get
             {
-                if(!cameraLoaded)
+                if (!cameraLoaded)
                     return ScreenManagerLang.statusEmptyScreen;
                 else
                     return cameraSummary.Alias;
@@ -99,13 +104,13 @@ namespace Kinovea.ScreenManager
         }
         public override string Status
         {
-            get	{ return ""; /*frameServer.Status;*/}
+            get { return ""; /*frameServer.Status;*/}
         }
         public override UserControl UI
         {
-            get 
-            { 
-                if(view is UserControl)
+            get
+            {
+                if (view is UserControl)
                     return view as UserControl;
                 else
                     return null;
@@ -117,7 +122,7 @@ namespace Kinovea.ScreenManager
         }
         public override bool CapabilityDrawings
         {
-            get { return true;}
+            get { return true; }
         }
         public override ImageAspectRatio AspectRatio
         {
@@ -168,7 +173,7 @@ namespace Kinovea.ScreenManager
             get { return recording; }
         }
         #endregion
-        
+
         #region Members
         private Guid id = Guid.NewGuid();
         private ICaptureScreenView view;
@@ -176,7 +181,7 @@ namespace Kinovea.ScreenManager
         private bool cameraLoaded;
         private bool cameraConnected;
         private bool recording;
-        private string bigFileName="";
+        private string bigFileName = "";
         private bool oneTimeRecorded = false;
         private CameraSummary cSummary;
         private ScreenDescriptionCapture cSdescription;
@@ -184,7 +189,7 @@ namespace Kinovea.ScreenManager
         private bool prepareFailed;
         private ImageDescriptor prepareFailedImageDescriptor;
         private ImageDescriptor imageDescriptor;
-        
+
         private CameraSummary cameraSummary;
         private CameraManager cameraManager;
         private ICaptureSource cameraGrabber;
@@ -217,7 +222,7 @@ namespace Kinovea.ScreenManager
         private bool shared;
         private bool synched;
         private int index;
-        
+
         private Metadata metadata;
         private MetadataRenderer metadataRenderer;
         private MetadataManipulator metadataManipulator;
@@ -227,12 +232,12 @@ namespace Kinovea.ScreenManager
 
         private System.Windows.Forms.Timer displayTimer = new System.Windows.Forms.Timer();
         private System.Windows.Forms.Timer nonGrabbingInteractionTimer = new System.Windows.Forms.Timer();
-        
+
         private HistoryStack historyStack = new HistoryStack();
         private string shortId;
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         #endregion
-        
+
         public CaptureScreen()
         {
             // There are several nested lifetimes with symetric setup/teardown methods:
@@ -244,28 +249,28 @@ namespace Kinovea.ScreenManager
             log.Debug("Constructing a CaptureScreen.");
             view = new CaptureScreenView(this);
             view.DualCommandReceived += OnDualCommandReceived;
-            
+
             viewportController = new ViewportController();
             viewportController.DisplayRectangleUpdated += ViewportController_DisplayRectangleUpdated;
             viewportController.Poked += viewportController_Poked;
 
             view.SetViewport(viewportController.View);
             //view.SetCapturedFilesView(capturedFiles.View);
-            
+
             InitializeCaptureFilenames();
-            InitializeTools();            
+            InitializeTools();
             InitializeMetadata();
 
             recordingMode = PreferencesManager.CapturePreferences.RecordingMode;
-            
+
             view.UpdateArmedStatus(triggerArmed);
             UpdateRecordingIndicator();
             UpdateArmableTrigger();
 
             view.SetToolbarView(drawingToolbarPresenter.View);
-            
+
             IntPtr forceHandleCreation = dummy.Handle; // Needed to show that the main thread "owns" this Control.
-            
+
             nonGrabbingInteractionTimer.Interval = 40;
             nonGrabbingInteractionTimer.Tick += NonGrabbingInteractionTimer_Tick;
             displayTimer.Tick += displayTimer_Tick;
@@ -322,7 +327,7 @@ namespace Kinovea.ScreenManager
         {
             if (!cameraConnected || !triggerArmed || recording)
                 return;
-            
+
             switch (PreferencesManager.CapturePreferences.CaptureAutomationConfiguration.TriggerAction)
             {
                 case CaptureTriggerAction.SaveSnapshot:
@@ -353,7 +358,7 @@ namespace Kinovea.ScreenManager
 
             view.DisplayAsActiveScreen(active);
         }
-        public override void RefreshUICulture() 
+        public override void RefreshUICulture()
         {
             metadata.CalibrationHelper.AngleUnit = PreferencesManager.PlayerPreferences.AngleUnit;
             view.RefreshUICulture();
@@ -368,7 +373,7 @@ namespace Kinovea.ScreenManager
             // through connect() for proper initialization of threads and timers.
             if (!cameraConnected)
                 return;
-            
+
             log.DebugFormat("Master preferences changed, reconnecting the camera.");
             Disconnect();
             Connect();
@@ -442,7 +447,7 @@ namespace Kinovea.ScreenManager
             this.index = index;
             InitializeCaptureFilenames();
         }
-        
+
         public override void ExecuteScreenCommand(int cmd)
         {
             view.ExecuteScreenCommand(cmd);
@@ -462,7 +467,7 @@ namespace Kinovea.ScreenManager
         {
             if (!File.Exists(path))
                 return;
-            
+
             MetadataSerializer s = new MetadataSerializer();
             s.Load(metadata, path, true);
             AfterLoadKVA();
@@ -487,7 +492,7 @@ namespace Kinovea.ScreenManager
 
             // Reset the currently loaded metadata.
             metadata.Keyframes.Clear();
-            
+
             LoadKVA(path);
         }
 
@@ -505,10 +510,10 @@ namespace Kinovea.ScreenManager
         #endregion
 
         #region Methods called from the view. These could also be events or commands.
-        
+
         public void autocallPlayer()
         {
-            
+
         }
         public void View_SetAsActive()
         {
@@ -544,7 +549,7 @@ namespace Kinovea.ScreenManager
         {
             ToggleRecording();
         }
-        
+
         public void View_ToggleDelayedDisplay()
         {
             delayedDisplay = !delayedDisplay;
@@ -579,7 +584,7 @@ namespace Kinovea.ScreenManager
         #endregion
 
         #region Camera and pipeline management
-        
+
         /// <summary>
         /// Associate this screen with a camera.
         /// </summary>
@@ -597,15 +602,15 @@ namespace Kinovea.ScreenManager
                 AssociateCamera(true);
                 return;
             }
-            
+
             // No camera manager in the camera summary: special case for when we want to load a camera from launch settings.
-            
+
             if (string.IsNullOrEmpty(cameraSummary.Alias))
             {
                 // Loading an empty screen through launch settings. Our job is done here.
                 return;
             }
-                
+
             // Loading a camera through launch settings.
             // At this point we don't know if the camera has been discovered yet or not.
             log.DebugFormat("Restoring camera: {0}", cameraSummary.Alias);
@@ -691,7 +696,7 @@ namespace Kinovea.ScreenManager
                     view.ForceDelaySeconds(screenDescription.Delay);
                     delayedDisplay = screenDescription.DelayedDisplay;
                 }
-                
+
                 break;
             }
 
@@ -733,7 +738,7 @@ namespace Kinovea.ScreenManager
         /// </summary>
         private void Connect()
         {
-           if (!cameraLoaded || cameraGrabber == null)
+            if (!cameraLoaded || cameraGrabber == null)
                 return;
 
             if (cameraConnected)
@@ -778,7 +783,7 @@ namespace Kinovea.ScreenManager
             else
                 Connect2();
         }
-        
+
         private void Connect2()
         {
             // Second part of Connect function. 
@@ -853,7 +858,7 @@ namespace Kinovea.ScreenManager
             double slowFramerate = Math.Min(displayFramerate, monitorFramerate);
             if (cameraGrabber.Framerate != 0)
                 slowFramerate = Math.Min(slowFramerate, cameraGrabber.Framerate);
-            
+
             slowFramerate = Math.Max(slowFramerate, 1);
 
             displayTimer.Interval = (int)(1000.0 / slowFramerate);
@@ -872,7 +877,7 @@ namespace Kinovea.ScreenManager
             log.DebugFormat("Recording mode: {0}, Compositor mode: {1}.", recordingMode, PreferencesManager.CapturePreferences.DelayCompositeConfiguration.CompositeType);
             log.DebugFormat("--------------------------------------------------");
         }
-        
+
         /// <summary>
         /// Ensure the display rectangle has a matching aspect ratio to the incoming images.
         /// </summary>
@@ -975,7 +980,7 @@ namespace Kinovea.ScreenManager
             // Runs in producer thread.
 
             try
-            {            
+            {
                 dummy.BeginInvoke((Action)delegate { FrameSignaled(); });
             }
             catch (Exception ex)
@@ -1090,7 +1095,7 @@ namespace Kinovea.ScreenManager
                 }
                 return;
             }
-            
+
             // Exiting quiet period. Re-arm only if not manually disarmed and prefs authorize it.
             log.DebugFormat("Detected end of quiet period.");
             inQuietPeriod = false;
@@ -1101,17 +1106,17 @@ namespace Kinovea.ScreenManager
 
             if (!manualArmed)
                 return;
-                
+
             if (!triggerArmed)
                 ToggleArmingTrigger(true, false);
         }
-        
+
         private void Grabber_GrabbingStatusChanged(object sender, EventArgs e)
         {
             if (dummy.InvokeRequired)
             {
-                dummy.BeginInvoke((Action)delegate 
-                { 
+                dummy.BeginInvoke((Action)delegate
+                {
                     view.UpdateGrabbingStatus(cameraGrabber.Grabbing);
                     UpdateRecordingIndicator();
                 });
@@ -1122,7 +1127,7 @@ namespace Kinovea.ScreenManager
                 UpdateRecordingIndicator();
             }
         }
-        
+
         private void UpdateTitle()
         {
             if (view == null)
@@ -1130,7 +1135,7 @@ namespace Kinovea.ScreenManager
 
             view.UpdateTitle(cameraManager.GetSummaryAsText(cameraSummary), cameraSummary.Icon);
         }
-        
+
         private void UpdateStats()
         {
             if (pipelineManager.Frequency <= 0)
@@ -1150,7 +1155,7 @@ namespace Kinovea.ScreenManager
             }
 
             float load = (ellapsed / (1000.0f / (float)pipelineManager.Frequency)) * 100;
-             
+
             string signal = string.Format(" {0:0.00} fps", pipelineManager.Frequency);
             string bandwidth = string.Format(" {0:0.00} MB/s", cameraGrabber.LiveDataRate);
             bandwidth = bandwidth.PadLeft(12);
@@ -1166,12 +1171,12 @@ namespace Kinovea.ScreenManager
             metadata.ImageAspect = aspectRatio;
 
             CaptureAspectRatio ratio = Convert(aspectRatio);
-            if(ratio == cameraSummary.AspectRatio)
+            if (ratio == cameraSummary.AspectRatio)
                 return;
-            
+
             cameraSummary.UpdateAspectRatio(ratio);
             cameraSummary.UpdateDisplayRectangle(Rectangle.Empty);
-            
+
             // update display rectangle.
             Disconnect();
             Connect();
@@ -1199,7 +1204,7 @@ namespace Kinovea.ScreenManager
 
         private CaptureAspectRatio Convert(ImageAspectRatio aspectRatio)
         {
-            switch(aspectRatio)
+            switch (aspectRatio)
             {
                 case ImageAspectRatio.Auto: return CaptureAspectRatio.Auto;
                 case ImageAspectRatio.Force43: return CaptureAspectRatio.Force43;
@@ -1207,10 +1212,10 @@ namespace Kinovea.ScreenManager
                 default: return CaptureAspectRatio.Auto;
             }
         }
-        
+
         private ImageAspectRatio Convert(CaptureAspectRatio aspectRatio)
         {
-            switch(aspectRatio)
+            switch (aspectRatio)
             {
                 case CaptureAspectRatio.Auto: return ImageAspectRatio.Auto;
                 case CaptureAspectRatio.Force43: return ImageAspectRatio.Force43;
@@ -1218,12 +1223,12 @@ namespace Kinovea.ScreenManager
                 default: return ImageAspectRatio.Auto;
             }
         }
-        
+
         private void NonGrabbingInteractionTimer_Tick(object sender, EventArgs e)
-        { 
+        {
             viewportController.Refresh();
         }
-        
+
         private void displayTimer_Tick(object sender, EventArgs e)
         {
             // Runs in the UI thread.
@@ -1252,7 +1257,7 @@ namespace Kinovea.ScreenManager
 
             if (!cameraConnected)
                 return;
-            
+
             if (recordingMode == CaptureRecordingMode.Camera)
             {
                 consumerDisplay.ConsumeOne();
@@ -1266,16 +1271,16 @@ namespace Kinovea.ScreenManager
             // Get the displayed frame.
             int target = 0;
             Bitmap displayFrame = delayedDisplay ? delayer.GetWeak(delay, ImageRotation, Mirrored, out target) : delayer.GetWeak(0, ImageRotation, Mirrored, out target);
-            
+
             if (displayFrame == null && target < 0)
                 displayFrame = CreateWaitImage(-target);
-            
+
             if (displayFrame != null)
             {
                 viewportController.ForgetBitmap();
                 viewportController.Bitmap = displayFrame;
             }
-            
+
             if (recording && recordingThumbnail == null && displayFrame != null)
                 recordingThumbnail = BitmapHelper.Copy(displayFrame);
 
@@ -1347,7 +1352,7 @@ namespace Kinovea.ScreenManager
         {
             metadata = new Metadata(historyStack, TimeStampsToTimecode);
             // TODO: hook to events raised by metadata.
-            
+
             // Use microseconds as the general time scale.
             // This is used when importing keyframes from external KVA,
             // and when exporting the KVA next to the saved videos.
@@ -1355,10 +1360,10 @@ namespace Kinovea.ScreenManager
             metadata.AverageTimeStampsPerFrame = (long)(metadata.AverageTimeStampsPerSecond / 25.0);
 
             LoadCompanionKVA();
-            
+
             metadataRenderer = new MetadataRenderer(metadata, false);
             metadataManipulator = new MetadataManipulator(metadata, screenToolManager);
-            
+
             viewportController.MetadataRenderer = metadataRenderer;
             viewportController.MetadataManipulator = metadataManipulator;
         }
@@ -1382,7 +1387,7 @@ namespace Kinovea.ScreenManager
             DrawingToolbarImporter importer = new DrawingToolbarImporter();
             importer.Import("capture.xml", drawingToolbarPresenter, DrawingTool_Click);
         }
-        
+
         private void DrawingTool_Click(object sender, EventArgs e)
         {
             // Disable magnifier.
@@ -1393,10 +1398,10 @@ namespace Kinovea.ScreenManager
             // Update cursor
             // refresh for cursor.
         }
-        
+
         private void MagnifierTool_Click(object sender, EventArgs e)
         {
-        
+
         }
 
         private double GetMonitorFramerate()
@@ -1435,7 +1440,7 @@ namespace Kinovea.ScreenManager
             double averageTimestampsPerFrame = metadata.AverageTimeStampsPerFrame;
             int frames = 0;
             if (averageTimestampsPerFrame != 0)
-                frames = (int)Math.Round(timestamps/ averageTimestampsPerFrame);
+                frames = (int)Math.Round(timestamps / averageTimestampsPerFrame);
 
             if (type == TimeType.Duration)
                 frames++;
@@ -1452,7 +1457,7 @@ namespace Kinovea.ScreenManager
         private void InitializeCaptureFilenames()
         {
             string defaultName = "Capture";
-            
+
             string image;
             string video;
 
@@ -1473,7 +1478,7 @@ namespace Kinovea.ScreenManager
             string nextVideo = string.IsNullOrEmpty(video) ? defaultName : Filenamer.ComputeNextFilename(video);
             view.UpdateNextVideoFilename(nextVideo);
         }
-        
+
         private void MakeSnapshot()
         {
             if (!cameraLoaded)
@@ -1498,11 +1503,11 @@ namespace Kinovea.ScreenManager
 
             string filenameWithoutExtension = view.CurrentImageFilename;
             string extension = Filenamer.GetImageFileExtension();
-            
+
             Dictionary<PatternContext, string> context = BuildCaptureContext();
 
             string path = Filenamer.GetFilePath(root, subdir, filenameWithoutExtension, extension, context);
-            
+
             if (!DirectoryExistsCheck(path) || !FilePathSanityCheck(path) || !OverwriteCheck(path))
             {
                 bitmap.Dispose();
@@ -1522,14 +1527,14 @@ namespace Kinovea.ScreenManager
                 PreferencesManager.CapturePreferences.CapturePathConfiguration.RightImageFile = filenameWithoutExtension;
 
             PreferencesManager.Save();
- 
+
             // Compute next name for user feedback.
             string next = Filenamer.ComputeNextFilename(filenameWithoutExtension);
             view.UpdateNextImageFilename(next);
 
             bitmap.Dispose();
         }
-        
+
         private Dictionary<PatternContext, string> BuildCaptureContext()
         {
             // TODO: 
@@ -1552,7 +1557,7 @@ namespace Kinovea.ScreenManager
             context[PatternContext.DateTime] = string.Format("{0:yyyyMMdd-HHmmss}", now);
 
             context[PatternContext.CameraAlias] = cameraSummary.Alias;
-            context[PatternContext.ConfiguredFramerate] = string.Format("{0:0.00}", cameraGrabber.Framerate); 
+            context[PatternContext.ConfiguredFramerate] = string.Format("{0:0.00}", cameraGrabber.Framerate);
             context[PatternContext.ReceivedFramerate] = string.Format("{0:0.00}", pipelineManager.Frequency);
 
             context[PatternContext.Escape] = "";
@@ -1564,7 +1569,7 @@ namespace Kinovea.ScreenManager
         {
             if (cameraGrabber == null)
                 return false;
-            
+
             if (!FilesystemHelper.CreateDirectory(path))
             {
                 ScreenManagerKernel.AlertDirectoryNotCreated();
@@ -1576,7 +1581,7 @@ namespace Kinovea.ScreenManager
 
         private bool FilePathSanityCheck(string path)
         {
-            if(cameraGrabber == null)
+            if (cameraGrabber == null)
                 return false;
 
             if (!FilenameHelper.IsFilenameValid(path, false))
@@ -1584,7 +1589,7 @@ namespace Kinovea.ScreenManager
                 ScreenManagerKernel.AlertInvalidFileName();
                 return false;
             }
-            
+
             return true;
         }
 
@@ -1600,7 +1605,7 @@ namespace Kinovea.ScreenManager
 
             if (PreferencesManager.CapturePreferences.CaptureAutomationConfiguration.IgnoreOverwrite || !File.Exists(path))
                 return true;
-            
+
             string msgTitle = ScreenManagerLang.Error_Capture_FileExists_Title;
             string msgText = String.Format(ScreenManagerLang.Error_Capture_FileExists_Text, path).Replace("\\n", "\n");
 
@@ -1613,7 +1618,7 @@ namespace Kinovea.ScreenManager
             triggerArmed = !triggerArmed;
             view.UpdateArmedStatus(triggerArmed);
             UpdateRecordingIndicator();
-            
+
             if (manual)
                 manualArmed = triggerArmed;
 
@@ -1631,7 +1636,7 @@ namespace Kinovea.ScreenManager
             // Generic update based on the current state.
             // There are other calls to viewportController.UpdateRecordingIndicator when we need to pass different progress value.
             RecordingStatus status = RecordingStatus.Disarmed;
-            
+
             if (!cameraLoaded)
                 status = RecordingStatus.Disconnected;
             else if (cameraGrabber != null && !cameraGrabber.Grabbing)
@@ -1647,7 +1652,7 @@ namespace Kinovea.ScreenManager
 
             viewportController.UpdateRecordingIndicator(status, 1.0f);
         }
-        
+
         private void ToggleRecording()
         {
             if (recording)
@@ -1655,7 +1660,7 @@ namespace Kinovea.ScreenManager
             else
                 StartRecording();
         }
-        
+
         private void StartRecording()
         {
             if (!cameraLoaded || recording)
@@ -1674,7 +1679,7 @@ namespace Kinovea.ScreenManager
                 root = PreferencesManager.CapturePreferences.CapturePathConfiguration.RightVideoRoot;
                 subdir = PreferencesManager.CapturePreferences.CapturePathConfiguration.RightVideoSubdir;
             }
-            
+
             string filenameWithoutExtension = view.CurrentVideoFilename;
             bool uncompressed = PreferencesManager.CapturePreferences.SaveUncompressedVideo && imageDescriptor.Format != Kinovea.Services.ImageFormat.JPEG;
             string extension = Filenamer.GetVideoFileExtension(uncompressed);
@@ -1685,7 +1690,7 @@ namespace Kinovea.ScreenManager
 
             if (!DirectoryExistsCheck(path))
                 return;
-            
+
             if (!FilePathSanityCheck(path))
                 return;
 
@@ -1715,9 +1720,9 @@ namespace Kinovea.ScreenManager
             log.DebugFormat("--------------------------------------------------");
             log.DebugFormat("Starting recording. Recording mode: {0}, Compression: {1}. Image size: {2}x{3} px. Rotation: {4}",
                 recordingMode, !PreferencesManager.CapturePreferences.SaveUncompressedVideo, imageDescriptor.Width, imageDescriptor.Height, ImageRotation);
-            log.DebugFormat("Nominal framerate: {0:0.###} fps, Received framerate: {1:0.###} fps, Display framerate: {2:0.###} fps.", 
+            log.DebugFormat("Nominal framerate: {0:0.###} fps, Received framerate: {1:0.###} fps, Display framerate: {2:0.###} fps.",
                 cameraGrabber.Framerate, pipelineManager.Frequency, 1000.0f / displayTimer.Interval);
-            
+
             SaveResult result;
             double framerate = cameraGrabber.Framerate;
             if (framerate == 0)
@@ -1747,12 +1752,12 @@ namespace Kinovea.ScreenManager
                     // In Scheduled mode all the work will be done later, at the end of the recording duration or on manual stop.
                     recording = true;
                 }
-            
-                if(recording)
+
+                if (recording)
                 {
                     recordingStart = DateTime.Now;
                     stopwatchRecording.Restart();
-                
+
                     view.UpdateRecordingStatus(recording);
                     viewportController.StartingRecording();
                     viewportController.UpdateRecordingIndicator(RecordingStatus.Recording, 1.0f);
@@ -1808,10 +1813,6 @@ namespace Kinovea.ScreenManager
 
                 viewportController.StoppingRecording();
                 AfterStopRecording(finalFilename);
-                if (recorded1time)
-                {
-                    LoaderVideo.LoadVideo(SinglePlayer.Instance.PlayerScreen, recentFileName, null);
-                }
             }
             else // recordingMode == CaptureRecordingMode.Scheduled
             {
@@ -1831,7 +1832,7 @@ namespace Kinovea.ScreenManager
         }
 
         private void AfterStopRecording(string finalFilename)
-        { 
+        {
             if (recordingThumbnail != null)
             {
                 AddCapturedFile(finalFilename, recordingThumbnail, true);
@@ -1853,7 +1854,20 @@ namespace Kinovea.ScreenManager
             string command = PreferencesManager.CapturePreferences.PostRecordCommand;
             if (!string.IsNullOrEmpty(command))
                 ExecutePostCaptureCommand(command, finalFilename);
-            
+
+            //LoaderVideo.LoadVideo(SinglePlayer.Instance.PlayerScreen, finalFilename, null);
+
+            try
+            {
+                // Small delay to ensure file system has completed writing
+                Task.Delay(100).Wait();
+                LoaderVideo.LoadVideo(SinglePlayer.Instance.PlayerScreen, finalFilename, null);
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error loading video after recording: " + ex.Message);
+            }
+
             // We need to use the original filename with patterns still in it.
             string filenamePattern = view.CurrentVideoFilename;
 
@@ -1895,9 +1909,9 @@ namespace Kinovea.ScreenManager
             metadata.TimeOrigin = 0;
             if (cameraConnected && (recordingMode == CaptureRecordingMode.Delay || recordingMode == CaptureRecordingMode.Scheduled) && delay > 0)
                 metadata.TimeOrigin = delay * metadata.AverageTimeStampsPerFrame;
-            
+
             // Only save the kva if there is interesting information that can't be found from the video file alone.
-            if (setCaptureFramerate || setUserInterval || metadata.TimeOrigin != 0 || metadata.Count > 0 || 
+            if (setCaptureFramerate || setUserInterval || metadata.TimeOrigin != 0 || metadata.Count > 0 ||
                 metadata.ImageAspect != ImageAspectRatio.Auto || metadata.ImageRotation != ImageRotation.Rotate0 || metadata.Mirrored)
             {
                 MetadataSerializer serializer = new MetadataSerializer();
@@ -1954,7 +1968,7 @@ namespace Kinovea.ScreenManager
             if (forcedStop || recordingSeconds > 0)
             {
                 // Scheduled mode.
-                
+
                 if (forcedStop && maxSeconds > 0)
                 {
                     //----------------------------------------------------------------------------------------------
@@ -1974,7 +1988,7 @@ namespace Kinovea.ScreenManager
                     //----------------------------------------------------------------------------------------------
                     int recordingFrames = Math.Max(SecondsToAge(recordingSeconds) - 1, 0);
                     maxAge = delay + recordingFrames;
-                 
+
                     // This case always implies the entire "max configured duration" is available.
                     minAge = maxAge - SecondsToAge(maxSeconds);
                 }
@@ -1995,7 +2009,7 @@ namespace Kinovea.ScreenManager
                     //----------------------------------------------------------------------------------------------
                     int recordingFrames = Math.Max(SecondsToAge(recordingSeconds) - 1, 0);
                     maxAge = delay + recordingFrames;
-                    
+
                     // Special case to handle the case where the user let the oldest interesting frame fall off.
                     maxAge = Math.Min(maxAge, delayer.SafeCapacity - 1);
 
@@ -2072,9 +2086,9 @@ namespace Kinovea.ScreenManager
 
         private void AddCapturedFile(string filepath, Bitmap image, bool video)
         {
-            if(!capturedFiles.HasThumbnails)
+            if (!capturedFiles.HasThumbnails)
                 view.ShowThumbnails();
-            
+
             capturedFiles.AddFile(filepath, image, video, ImageRotation);
         }
         #endregion
@@ -2106,7 +2120,7 @@ namespace Kinovea.ScreenManager
                 return true;
             }
 
-            if ((recordingMode == CaptureRecordingMode.Delay || recordingMode == CaptureRecordingMode.Scheduled) && 
+            if ((recordingMode == CaptureRecordingMode.Delay || recordingMode == CaptureRecordingMode.Scheduled) &&
                 consumerDelayer != null && consumerDelayer.Active)
             {
                 // Wait for the consumer to deactivate so it doesn't try to push frames while we are destroying them.
@@ -2143,7 +2157,7 @@ namespace Kinovea.ScreenManager
         private void DelayChanged(double age)
         {
             this.delay = (int)Math.Round(age);
-            
+
             // Force a refresh if we are not connected to the camera to enable "pause and browse".
             if (cameraLoaded && !cameraConnected)
             {
@@ -2152,14 +2166,14 @@ namespace Kinovea.ScreenManager
                 viewportController.Refresh();
             }
         }
-        
+
         private void UpdateDelayMaxAge()
         {
             int frames = Math.Max(delayer.SafeCapacity - 1, 0);
             double seconds = AgeToSeconds(frames);
             view.UpdateDelayMax(seconds, frames);
         }
-        
+
         /// <summary>
         /// Returns the number of seconds corresponding to a number of frames of delay.
         /// This is used purely for UI labels, all internal code uses frames.
